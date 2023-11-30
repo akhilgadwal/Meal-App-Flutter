@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mealapp/screens/tabs.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class OnBoardScreen extends StatefulWidget {
   const OnBoardScreen({Key? key}) : super(key: key);
@@ -66,13 +67,20 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
             width: 200,
             child: SwipeableButtonView(
               onFinish: () async {
-                await Navigator.push(
-                  context,
-                  PageTransition(
-                    child: const TabScreen(),
-                    type: PageTransitionType.fade,
-                  ),
-                );
+                User? user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  // User is authenticated, navigate to TabScreen
+                  await Navigator.push(
+                    context,
+                    PageTransition(
+                      child: const TabScreen(),
+                      type: PageTransitionType.fade,
+                    ),
+                  );
+                } else {
+                  // User is not authenticated, handle authentication (e.g., show sign-in screen)
+                  // Example: await Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+                }
               },
               isFinished: isFinished,
               onWaitingProcess: () {

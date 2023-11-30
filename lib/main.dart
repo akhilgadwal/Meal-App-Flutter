@@ -1,11 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mealapp/connection.dart';
 import 'package:mealapp/provider/theme_provider.dart';
-import 'package:mealapp/screens/on_board_screen.dart';
+import 'package:mealapp/screens/on_board_screen.dart'; // Import your SignInScreen
+import 'package:mealapp/screens/signin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -33,6 +38,10 @@ class _MyAppState extends ConsumerState<MyApp> {
     return FutureBuilder(
       future: gettheme(),
       builder: (context, snapshot) {
+        // Check if the user is signed in
+        bool isUserSignedIn = FirebaseAuth.instance.currentUser != null;
+        /* Implement your logic to check if the user is signed in */;
+
         return MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
@@ -46,9 +55,14 @@ class _MyAppState extends ConsumerState<MyApp> {
           ),
           darkTheme: ThemeData.dark(),
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          home: const ConnectivityWrapper(
-            child: OnBoardScreen(),
-          ),
+          // Update the home property based on the sign-in status
+          home: isUserSignedIn
+              ? const ConnectivityWrapper(
+                  child: OnBoardScreen(),
+                )
+              : const ConnectivityWrapper(
+                  child: SignInScreen(),
+                ),
         );
       },
     );
