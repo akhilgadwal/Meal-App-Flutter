@@ -1,4 +1,4 @@
-package com.new.package.mealapp
+package com.beingbetter.mealapp
 
 import io.flutter.embedding.android.FlutterActivity
 

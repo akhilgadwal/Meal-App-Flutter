@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mealapp/connection.dart';
 import 'package:mealapp/provider/theme_provider.dart';
 import 'package:mealapp/screens/on_board_screen.dart'; // Import your SignInScreen
-import 'package:mealapp/screens/signin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -56,13 +55,15 @@ class _MyAppState extends ConsumerState<MyApp> {
           darkTheme: ThemeData.dark(),
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           // Update the home property based on the sign-in status
-          home: isUserSignedIn
-              ? const ConnectivityWrapper(
+          home:
+          //  isUserSignedIn
+              // ?
+               const ConnectivityWrapper(
                   child: OnBoardScreen(),
                 )
-              : const ConnectivityWrapper(
-                  child: SignInScreen(),
-                ),
+              // : const ConnectivityWrapper(
+              //     child: SignInScreen(),
+              //   ),
         );
       },
     );
